@@ -18,3 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware'=>['auth']], function(){
+    Route::get('/channel/{channel}/edit','ChannelSettingsController@edit')->name('channel.edit');
+    Route::put('/channel/{channel}/edit','ChannelSettingsController@update')->name('channel.update');
+});
