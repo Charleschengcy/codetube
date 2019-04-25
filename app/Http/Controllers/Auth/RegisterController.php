@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\channel;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -70,9 +71,9 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        $user->channels->create([
-            'name' = $data['channel_name'];
-            'slug' = uniqid(true);
+        $user->channel()->create([
+            'name' => $data['channel_name'],
+            'slug' => uniqid(true),
         ]);
 
         return $user;

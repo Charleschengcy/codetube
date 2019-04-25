@@ -10,7 +10,7 @@ class channel extends Model
         'name',
         'slug',
         'description',
-        'image_filename';
+        'image_filename',
     ];
 
     public function user()
