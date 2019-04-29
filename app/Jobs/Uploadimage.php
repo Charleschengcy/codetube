@@ -13,6 +13,8 @@ use App\Models\channel;
 
 use File;
 
+use Image;
+
 class Uploadimage implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -48,6 +50,11 @@ class Uploadimage implements ShouldQueue
         //更新频道图片
         $path = storage_path() . '/uploads/' . $this->fileId;
         $fileName = $this->fileId. '.png';
+
+
+        Image::make($path)->encode('png')->fit(50,50, function($c){
+            $c->upsize();
+        })->save();
 
         // Storage::disk('s3images')->put('profile/' . $fileName, fopen($path, 'r+'));
         if(Storage::disk('s3images')->put('profile/' . $fileName, fopen($path, 'r+')))

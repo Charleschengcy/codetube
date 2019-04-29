@@ -23,4 +23,10 @@ class channel extends Model
     {
         return 'slug';
     }
+
+    public function videos()
+    {
+        //一个频道可拥有多个视频的对应关系
+        return $this->hasMany(Video::class);
+    }
 }
