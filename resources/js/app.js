@@ -8,6 +8,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+var VueResource = require('vue-resource');
 
 /**
  * The following block of code may be used to automatically register your
@@ -27,6 +28,7 @@ Vue.component('video-upload', require('./components/VideoUpload.vue').default);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+Vue.use(VueResource);
 
 const app = new Vue({
     el: '#app'

@@ -11,7 +11,32 @@
                             </div>
 
                             <div id="video-form" v-if="uploading &&!failed">
-                                Form
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input type="text" name="title" class="form-control" v-model="title">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" v-model="description"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="visibility">Visibility</label>
+                                    <select>class="form-control" v-model="visibility">
+                                        <option value="private">Private</option>
+                                        <option value="public">Public</option>
+                                        <option value="unlisted">Unlisted</option>
+                                    </select>
+                                </div>
+
+                                <!-- <div class="form-group row mb-0"> -->
+                                    <!-- <div class="col-md-6 offset-md-4"> -->
+<!--
+                                        <button type="submit" class="btn btn-primary" @click.prevent="update">Save changes</button>
+                                        <span class="help-block pull-right">{{ saveStatus }}</span> -->
+                                    <!-- </div> -->
+                                <!-- </div> -->
                             </div>
 
                        <!--  @if (session('status'))
@@ -30,10 +55,16 @@
 <script>
     export default {
         data(){
+            //设定默认值
             return {
+                uid: null,
                 uploading: false,
                 uploadingComplete: false,
-                failed: false
+                failed: false,
+                title: 'Untitled',
+                description: null,
+                visibility: 'private',
+                saveStatus: null
             }
         },
 
@@ -42,7 +73,39 @@
                 this.uploading = true;
                 this.failed = false;
 
+                this.file = document.getElementById('video').files[0];
+                this.store().then(() => {
 
+                })
+
+
+            },
+
+            store(){
+                return this.$http.post('/videos', {
+                    title: this.title,
+                    description: this.description,
+                    visibility: this.visibility,
+                    extension: this.file.name.split('.').pop(),
+                }).then((response) => {
+                    console.log(response.json());
+                    this.uid = response.json().data.uid;
+                });
+            },
+
+            update(){
+
+                this.saveStatus = 'Saving changes.';
+
+                return this.$http.put('/videos/'+this.uid, {
+                    title: this.title,
+                    description: this.description,
+                    visibility: this.visibility
+                }).then((response) => {
+                    this.saveStatus = 'Changes saved.';
+                }, () => {
+                    this.saveStatus = 'Failed to save changes.';
+                });
             }
         },
 
