@@ -1811,12 +1811,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
+// Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name=csrf-token]').getAttribute('content');
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     //设定默认值
@@ -1847,8 +1842,7 @@ __webpack_require__.r(__webpack_exports__);
         visibility: this.visibility,
         extension: this.file.name.split('.').pop()
       }).then(function (response) {
-        console.log(response.json());
-        _this.uid = response.json().data.uid;
+        _this.uid = response.body.data.uid;
       });
     },
     update: function update() {
@@ -1860,9 +1854,12 @@ __webpack_require__.r(__webpack_exports__);
         description: this.description,
         visibility: this.visibility
       }).then(function (response) {
-        _this2.saveStatus = 'Changes saved.';
+        _this2.saveStatus = ' Changes saved.';
+        setTimeout(function () {
+          _this2.saveStatus = null;
+        }, 3000);
       }, function () {
-        _this2.saveStatus = 'Failed to save changes.';
+        _this2.saveStatus = ' Failed to save changes';
       });
     }
   },
@@ -37231,7 +37228,73 @@ var render = function() {
                     })
                   ]),
                   _vm._v(" "),
-                  _vm._m(0)
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "visibility" } }, [
+                      _vm._v("Visibility")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.visibility,
+                            expression: "visibility"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.visibility = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "private" } }, [
+                          _vm._v("Private")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "public" } }, [
+                          _vm._v("Public")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "unlisted" } }, [
+                          _vm._v("Unlisted")
+                        ])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "submit" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.update($event)
+                        }
+                      }
+                    },
+                    [_vm._v("Save changes")]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "help-block pull-right" }, [
+                    _vm._v(_vm._s(_vm.saveStatus))
+                  ])
                 ])
               : _vm._e()
           ])
@@ -37240,27 +37303,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "visibility" } }, [_vm._v("Visibility")]),
-      _vm._v(" "),
-      _c("select", [
-        _vm._v(
-          'class="form-control" v-model="visibility">\n                                        '
-        ),
-        _c("option", { attrs: { value: "private" } }, [_vm._v("Private")]),
-        _vm._v(" "),
-        _c("option", { attrs: { value: "public" } }, [_vm._v("Public")]),
-        _vm._v(" "),
-        _c("option", { attrs: { value: "unlisted" } }, [_vm._v("Unlisted")])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

@@ -23,7 +23,7 @@
 
                                 <div class="form-group">
                                     <label for="visibility">Visibility</label>
-                                    <select>class="form-control" v-model="visibility">
+                                    <select class="form-control" v-model="visibility">
                                         <option value="private">Private</option>
                                         <option value="public">Public</option>
                                         <option value="unlisted">Unlisted</option>
@@ -32,18 +32,12 @@
 
                                 <!-- <div class="form-group row mb-0"> -->
                                     <!-- <div class="col-md-6 offset-md-4"> -->
-<!--
+
                                         <button type="submit" class="btn btn-primary" @click.prevent="update">Save changes</button>
-                                        <span class="help-block pull-right">{{ saveStatus }}</span> -->
+                                        <span class="help-block pull-right">{{ saveStatus }}</span>
                                     <!-- </div> -->
                                 <!-- </div> -->
                             </div>
-
-                       <!--  @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif -->
 
                         </div>
                     </div>
@@ -53,6 +47,7 @@
 </template>
 
 <script>
+    // Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name=csrf-token]').getAttribute('content');
     export default {
         data(){
             //设定默认值
@@ -64,21 +59,17 @@
                 title: 'Untitled',
                 description: null,
                 visibility: 'private',
-                saveStatus: null
+                saveStatus: null,
             }
         },
-
         methods: {
             fileInputChange(){
                 this.uploading = true;
                 this.failed = false;
-
                 this.file = document.getElementById('video').files[0];
                 this.store().then(() => {
 
                 })
-
-
             },
 
             store(){
@@ -88,23 +79,27 @@
                     visibility: this.visibility,
                     extension: this.file.name.split('.').pop(),
                 }).then((response) => {
-                    console.log(response.json());
-                    this.uid = response.json().data.uid;
+                    this.uid = response.body.data.uid;
                 });
             },
 
             update(){
-
                 this.saveStatus = 'Saving changes.';
 
                 return this.$http.put('/videos/'+this.uid, {
                     title: this.title,
                     description: this.description,
                     visibility: this.visibility
+
                 }).then((response) => {
-                    this.saveStatus = 'Changes saved.';
+                    this.saveStatus = ' Changes saved.';
+
+                    setTimeout(() => {
+                        this.saveStatus = null
+                    }, 3000)
+
                 }, () => {
-                    this.saveStatus = 'Failed to save changes.';
+                    this.saveStatus = ' Failed to save changes';
                 });
             }
         },

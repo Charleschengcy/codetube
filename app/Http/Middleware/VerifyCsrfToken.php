@@ -22,17 +22,11 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         //
         '/videos',
-        'video_update'
     ];
 
     public function handle($request, Closure $next)
     {
-        // 如果是来自 api 域名，就跳过检查
-        if ($_SERVER['SERVER_NAME'] != config('api.domain'))
-        {
-            return parent::handle($request, $next);
-        }
-
+        // 跳过CSRF检查
         return $next($request);
     }
 }
