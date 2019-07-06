@@ -31,5 +31,6 @@ Vue.component('video-upload', require('./components/VideoUpload.vue').default);
 Vue.use(VueResource);
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data: window.codetube
 });

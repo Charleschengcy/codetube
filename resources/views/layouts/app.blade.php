@@ -12,6 +12,15 @@
     <!-- Scripts -->
     <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
     <script src="{{ mix('js/app.js') }}" defer></script>
+    <script>
+        window.codetube = {
+            url: '{{ config('app.url')}}',
+            user: {
+                id: {{ Auth::check() ? Auth::user()->id : null }},
+                authenticated: {{ Auth::check() ? 'true' : 'false' }}
+            }
+        };
+    </script>
 
 
     <!-- Fonts -->
