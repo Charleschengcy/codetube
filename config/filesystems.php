@@ -55,12 +55,12 @@ return [
             'visibility' => 'public',
         ],
 
-        's3' => [
+        's3drop' => [
             'driver' => 's3',
             'key' => env('S3_KEY'),
             'secret' => env('S3_SECRET'),
             'region' => 'us-east-2',
-            'bucket' => env('AWS_BUCKET'),
+            'bucket' => 'drop.wetube.com',
 
         ],
 

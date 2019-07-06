@@ -83,7 +83,6 @@
                 this.file = document.getElementById('video').files[0];
                 //上传video
                 this.store().then(() => {
-                    console.log(1);
                     var form = new FormData();
 
                     form.append('video', this.file);

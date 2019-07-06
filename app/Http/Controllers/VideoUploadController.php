@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\jobs\UploadVideo;
 
 class VideoUploadController extends Controller
 {
@@ -21,6 +22,11 @@ class VideoUploadController extends Controller
         //移动到到临时位置
         $request->file('video')->move(storage_path() . '/uploads', $video->video_filename);
         // //上传到s3
+        $this->dispatch(new UploadVideo(
+            $video->video_filename
+        ));
+
+        return response()->json(null, 200);
     }
 
 }
