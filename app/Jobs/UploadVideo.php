@@ -39,6 +39,7 @@ class UploadVideo implements ShouldQueue
 
         if (Storage::disk('s3drop')->put($this->filename, fopen($file, 'r+')))
         {
+            //上传成功后删除临时文件
             File::delete($file);
         }
     }

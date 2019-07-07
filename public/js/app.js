@@ -1849,7 +1849,6 @@ __webpack_require__.r(__webpack_exports__);
       this.file = document.getElementById('video').files[0]; //上传video
 
       this.store().then(function () {
-        console.log(1);
         var form = new FormData();
         form.append('video', _this.file);
         form.append('uid', _this.uid);
@@ -1857,8 +1856,6 @@ __webpack_require__.r(__webpack_exports__);
         _this.$http.post('/upload', form, {
           progress: function progress(e) {
             if (e.lengthComputable) {
-              console.log(e.loaded + ' ' + e.total);
-
               _this.updateProgress(e);
             }
           }
@@ -1905,7 +1902,20 @@ __webpack_require__.r(__webpack_exports__);
       this.fileProgress = e.percent;
     }
   },
-  ready: function ready() {}
+  mounted: function mounted() {
+    var _this4 = this;
+
+    console.log(2);
+
+    window.onbeforeunload = function () {
+      console.log(3);
+
+      if (_this4.uploading && !_this4.uploadingComplete && !_this4.failed) {
+        console.log(4);
+        return 'Are you sure you want to navigate away?';
+      }
+    };
+  }
 });
 
 /***/ }),

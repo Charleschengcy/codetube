@@ -91,7 +91,6 @@
                     this.$http.post('/upload', form, {
                         progress: (e) => {
                             if (e.lengthComputable) {
-                                console.log(e.loaded + ' ' + e.total);
                                 this.updateProgress(e)
                             }
                         }
@@ -142,8 +141,17 @@
             }
         },
 
-        ready(){
-
+        //vue 1.0可以用 ready(), vue 2.0更新为mounted()
+        mounted() {
+            console.log(2);
+            window.onbeforeunload = () => {
+                console.log(3);
+                if (this.uploading && !this.uploadingComplete && !this.failed)
+                {
+                    console.log(4);
+                    return 'Are you sure you want to navigate away?';
+                }
+            }
         }
 
     }
